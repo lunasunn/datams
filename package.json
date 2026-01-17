@@ -1,0 +1,26 @@
+{
+  "name": "minichat",
+  "version": "1.1.0",
+  "description": "Minimalist real-time web messenger (single shared room) for Ubuntu 24.04",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "postinstall": "node scripts/copy-fonts.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.1.1",
+    "express": "^4.19.2",
+    "socket.io": "^4.8.1",
+    "sharp": "^0.33.5",
+    "sqlite3": "^5.0.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <title>data</title>
+
+    <link rel="stylesheet" href="/assets/font/jetbrains-mono/400.css" />
+    <link rel="stylesheet" href="/assets/font/jetbrains-mono/700.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="topbar__left">
+          <div class="title"># data</div>
+          <div class="subtitle"><span id="youLine"></span></div>
+        </div>
+
+        <div class="topbar__right">
+          <button id="settingsBtn" class="btn btn--icon" type="button" aria-label="Настройки" title="Настройки">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.3 7.3 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.57.22-1.12.52-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.41 1.05.72 1.63.94l.36 2.54a.5.5 0 0 0 .5.42h3.84a.5.5 0 0 0 .5-.42l.36-2.54c.57-.22 1.12-.52 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/>
+            </svg>
+          </button>
+          <div class="vsep" aria-hidden="true"></div>
+          <button id="shopBtn" class="btn" type="button">Магазин</button>
+          <div id="status" class="status disconnected">offline</div>
+        </div>
+      </header>
+
+      <main id="messages" class="messages" aria-live="polite"></main>
+
+      <form id="composer" class="composer" autocomplete="off">
+        <textarea
+          id="input"
+          name="message"
+          rows="1"
+          maxlength="800"
+          placeholder="сообщение..."
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+        ></textarea>
+        <button id="send" type="submit">отпр</button>
+      </form>
+    </div>
+
+    <!-- Settings modal -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal__panel">
+        <div class="modal__title" id="modalTitle">Настройки</div>
+
+        <label class="label" for="keyInput" id="labelKey">Ключ</label>
+        <input id="keyInput" class="input" type="text" autocapitalize="off" autocomplete="off" />
+        <div class="hint" id="hintKey">
+          Вставь ключ, чтобы загрузить аккаунт. Иначе используется твой текущий.
+        </div>
+
+        <div class="hr"></div>
+
+        <label class="label" for="nickInput" id="labelNick">Ник</label>
+        <input id="nickInput" class="input" type="text" maxlength="32" autocapitalize="off" autocomplete="off" />
+        <div class="hint" id="hintNick">Ник: a-z A-Z 0-9 _ - (остальное станет _)</div>
+
+        <div class="hr"></div>
+
+        <label class="label" for="langSelect" id="labelLang">Язык</label>
+        <select id="langSelect" class="select">
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+        </select>
+        <div class="hint" id="hintLang">Выберите язык интерфейса.</div>
+
+        <div class="hr"></div>
+
+        <label class="label" id="labelAvatar">Аватар (PNG)</label>
+        <div class="avatarRow">
+          <div class="avatarPreview">
+            <img id="avatarPreviewImg" alt="" />
+          </div>
+          <div class="avatarControls">
+            <input id="avatarFile" class="fileInput" type="file" accept="image/png" />
+            <label id="avatarFileBtn" class="btn btn--file" for="avatarFile">Choose file</label>
+          </div>
+        </div>
+        <div class="hint" id="hintAvatar">Только PNG. Размер ограничен.</div>
+
+        <div class="modal__actions">
+          <button id="cancelBtn" class="btn" type="button">отмена</button>
+          <button id="saveBtn" class="btn btn--accent" type="button">сохранить</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Shop modal -->
+    <div id="shopModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal__panel">
+        <div class="modal__title" id="shopTitle">Магазин</div>
+        <div class="hint" id="shopBalance">Баланс: #0</div>
+
+        <div id="shopList" class="shopList"></div>
+
+        <div class="modal__actions">
+          <button id="shopCloseBtn" class="btn" type="button">закрыть</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

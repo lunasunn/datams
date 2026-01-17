@@ -1,0 +1,32 @@
+[Unit]
+Description=minichat (minimal real-time web messenger)
+After=network.target
+
+[Service]
+Type=simple
+# IMPORTANT: adjust WorkingDirectory to your deployment path
+WorkingDirectory=/opt/minichat
+
+# IMPORTANT: adjust paths if node is not in /usr/bin/node
+ExecStart=/usr/bin/node /opt/minichat/server.js
+
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+# Restart on crashes / reboots
+Restart=always
+RestartSec=2
+
+# Run as a non-root user (www-data exists by default on Ubuntu)
+User=www-data
+Group=www-data
+
+# Hardening (optional, safe defaults)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/minichat
+
+[Install]
+WantedBy=multi-user.target
